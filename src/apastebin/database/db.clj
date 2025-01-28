@@ -28,12 +28,14 @@
 
 (defn get-url [url]
   (create-db!)
-  (jdbc/execute! ds
-                 (-> (h/select [:*])
-                     (h/from :bin)
-                     (h/where [:= :url url])
-                     (sql/format))))
+  (first (jdbc/execute! ds
+                        (-> (h/select [:*])
+                            (h/from :bin)
+                            (h/where [:= :url url])
+                            (sql/format)))))
 
+(defn content [url]
+  (:bin/content (get-url url)))
 
 (comment
   (insert "alpha" "hi alpha"))
