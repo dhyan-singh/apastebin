@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "A Paste Bin",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

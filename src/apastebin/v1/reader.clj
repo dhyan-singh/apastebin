@@ -1,6 +1,6 @@
 (ns apastebin.v1.reader
   (:require [ring.util.response :as response]
-            [apastebin.database.db :as db]))
+            [apastebin.utils.db :as db]))
 
 
 (defn rdr [r]

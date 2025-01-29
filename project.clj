@@ -10,7 +10,9 @@
                  [ring/ring-devel "1.13.0"]
                  [com.github.seancorfield/next.jdbc "1.3.981"]
                  [com.github.seancorfield/honeysql "2.6.1196"]
-                 [org.xerial/sqlite-jdbc "3.43.0.0"]] 
+                 [org.xerial/sqlite-jdbc "3.43.0.0"]
+                 [miikka/clj-base62 "0.1.1"]
+                 [ring/ring-json "0.5.1"]] 
   :main ^:skip-aot apastebin.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all

@@ -1,7 +1,8 @@
-(ns apastebin.database.db
+(ns apastebin.utils.db
   (:require [honey.sql :as sql]
             [honey.sql.helpers :as h]
-            [next.jdbc :as jdbc]))
+            [next.jdbc :as jdbc])
+  (:import (java.sql SQLException)))
 
 (def dbname "pastebin.db")
 
@@ -26,7 +27,7 @@
                      (h/values [[url content]])
                      (sql/format))))
 
-(defn get-url [url]
+(defn get-entry [url]
   (create-db!)
   (first (jdbc/execute! ds
                         (-> (h/select [:*])
@@ -35,7 +36,9 @@
                             (sql/format)))))
 
 (defn content [url]
-  (:bin/content (get-url url)))
+  (:bin/content (get-entry url)))
 
 (comment
-  (insert "alpha" "hi alpha"))
+  (try (insert "alpha" "hi alpha")
+       (catch SQLException e
+         (.getMessage e))))

@@ -5,7 +5,11 @@
             [reitit.ring :as ring]
             [apastebin.v1.reader :as rdr]
             [apastebin.v1.writer :as wrt]
-            [ring.middleware.params :as params])
+            [ring.middleware.params :as params]
+            [ring.middleware.json :refer [wrap-json-response]]
+            
+            [apastebin.home :refer [home]] ; basically testing
+            )
   (:gen-class))
 
 (def app
@@ -17,7 +21,9 @@
                    :post wrt/wrt
                    :name ::paste}]
        ["/:url" {:get rdr/rdr
-                 :name ::all}]]]]
+                 :name ::all}]]]
+     ["/:url" {:get rdr/rdr
+               :name ::general}]]
     {:conflicts nil})))
 
 (comment
@@ -28,5 +34,5 @@
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
-  (run-jetty (params/wrap-params (wrap-reload #'app)) {:port 3000
+  (run-jetty (wrap-json-response (params/wrap-params (wrap-reload #'app))) {:port 3000
                   :join? false}))
