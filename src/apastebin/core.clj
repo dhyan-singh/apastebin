@@ -1,38 +1,35 @@
 (ns apastebin.core
-  (:use ring.adapter.jetty
-        apastebin.home)
+  (:use ring.adapter.jetty)
   (:require [ring.middleware.reload :refer [wrap-reload]]
             [reitit.ring :as ring]
-            [apastebin.v1.reader :as rdr]
-            [apastebin.v1.writer :as wrt]
+            [apastebin.v1.reader :refer [get-paste]]
+            [apastebin.v1.writer :refer [create-paste]]
             [ring.middleware.params :as params]
             [ring.middleware.json :refer [wrap-json-response]]
-            
-            [apastebin.home :refer [home]] ; basically testing
-            )
+            [apastebin.pages :as pages])
   (:gen-class))
 
 (def app
   (ring/ring-handler
    (ring/router
-    [["/api" ::api
+    [["/" {:get pages/home
+           :name ::home-page}]
+     ["/api" ::api
       ["/v1" ::v1
-       ["/paste" {:get rdr/rdr ;;redirect somewhere else
-                   :post wrt/wrt
-                   :name ::paste}]
-       ["/:url" {:get rdr/rdr
+       ["/paste" {:post create-paste
+                  :name ::paste}]
+       ["/:url" {:get get-paste
                  :name ::all}]]]
-     ["/:url" {:get rdr/rdr
+     ["/:url" {:get get-paste
                :name ::general}]]
     {:conflicts nil})))
 
 (comment
-  (app {:request-method :get :uri "/api/v1/paste"})
-  )
+  (app {:request-method :get :uri "/api/v1/paste"}))
 
 
 (defn -main
   "I don't do a whole lot ... yet."
   [& args]
   (run-jetty (wrap-json-response (params/wrap-params (wrap-reload #'app))) {:port 3000
-                  :join? false}))
+                                                                            :join? false}))

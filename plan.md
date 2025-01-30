@@ -1,16 +1,21 @@
 # Something
 
 ## Clojure specific rules
-
-1. **Consistent naming** is important
+🥵1. **Consistent naming** is important
     - `r` for request
-    - `w` for writer
+
+
+## FIXMEs
+1. Give proper error when error occurs, currently it just prints stuff fix all those `try/catch` errors.
+2. Make response uniform sometimes it returns `text/plain` and sometimes `application/json`
+3. 
 
 ## Plan
 
 TOODS
 
-- sanitise input sql
+- sanitise input sql 🥵
+- home page should show SwaggerUI about api
 
 - only implementing `reader` and `writer` (analytics later)
 - define `sql` schema & `json` input/output we will be talking

@@ -2,8 +2,7 @@
   (:require [ring.util.response :as response]
             [apastebin.utils.db :as db]))
 
-
-(defn rdr [r]
+(defn get-paste [r]
   (let [q (get-in r [:path-params :url])
         v (db/content q)]
     (response/content-type (response/response v) "text/plain")))
